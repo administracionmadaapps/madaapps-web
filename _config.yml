@@ -1,0 +1,3 @@
+# Jekyll publica lo que no empieza por "_": esto no es parte de la web.
+exclude:
+  - CLAUDE.md
