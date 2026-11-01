@@ -1,0 +1,6 @@
+# Basura del sistema operativo.
+.DS_Store
+Thumbs.db
+
+# Configuracion local de Claude Code.
+.claude/

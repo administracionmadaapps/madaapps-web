@@ -1,0 +1,16 @@
+# Titular
+Este sitio web, madaapps.es, es de {responsable}, con NIF {nif} y domicilio en {domicilio}. Puedes
+escribir a {contacto}.
+
+# Contenido
+Esta web presenta las aplicaciones de Mada Apps y publica los textos legales de cada una. Cada
+aplicación tiene su propia información sobre protección de datos y sus propias condiciones de uso,
+enlazadas desde su ficha.
+
+# Datos personales y cookies
+Esta web no usa cookies, no tiene formularios ni herramientas de analítica, y no recoge datos
+personales. Si eliges un idioma, esa elección se guarda en tu propio navegador y no se envía a
+ningún sitio.
+
+Está alojada en GitHub Pages, que registra la dirección IP de las visitas conforme a su propia
+política de privacidad.

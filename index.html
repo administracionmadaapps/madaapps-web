@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mada Apps</title>
+<meta name="description" content="Mada Apps — desarrollo de aplicaciones móviles. Creadores de Primrose AI.">
+<link rel="canonical" href="https://madaapps.es/">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/icono.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icono.png">
+<meta property="og:site_name" content="Mada Apps">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Mada Apps">
+<meta property="og:description" content="Mada Apps — desarrollo de aplicaciones móviles. Creadores de Primrose AI.">
+<meta property="og:url" content="https://madaapps.es/">
+<meta property="og:image" content="https://madaapps.es/assets/primrose-logo.jpg">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="926">
+<meta property="og:image:alt" content="Primrose AI">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/InstrumentSans-Variable-latin.woff2" crossorigin>
+<link rel="preload" as="image" href="assets/botella-primrose-ai.webp">
+<style>
+  /* =========================================================
+     Fuentes (alojadas en la propia web, sin servicios externos)
+     ========================================================= */
+  /* Instrument Sans — SIL Open Font License 1.1. Variable 400–700. Dos subconjuntos: latino básico y
+     latino extendido (polaco: ą ę ł ś ż…); el navegador solo descarga el segundo si la página lo necesita.
+     No tiene alfabeto griego: en griego se usa la fuente del sistema.
+     Es también la de los títulos: Cabinet Grotesk se quitó porque su licencia prohíbe ponerla a
+     disposición en un repositorio público, y GitHub Pages gratis lo exige. */
+  @font-face{font-family:"Instrument Sans";src:url("assets/fonts/InstrumentSans-Variable-latin.woff2") format("woff2");
+    font-weight:400 700;font-style:normal;font-display:swap;
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:"Instrument Sans";src:url("assets/fonts/InstrumentSans-Variable-latin-ext.woff2") format("woff2");
+    font-weight:400 700;font-style:normal;font-display:swap;
+    unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+  /* =========================================================
+     Variables
+     ========================================================= */
+  :root{
+    --ink:#141414;
+    --muted:#7a7a7a;
+    --wall:#ffffff;
+    --floor:#eef0f1;
+    --horizon:58%;              /* línea pared/suelo del escenario */
+    --brand-blue:#1F2F8C;
+    --green-ink:#123623;
+    --green-deep:#0E2A1B;
+    --contact-bg:#bc7155;
+    --ui:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --display:var(--ui);
+    --display-weight:400;       /* Lo más fino que tiene Instrument Sans */
+  }
+
+  /* =========================================================
+     Base
+     ========================================================= */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--wall);color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{display:block}
+  .view{display:none}
+  .view.active{display:block}
+
+  /* =========================================================
+     Cabecera
+     ========================================================= */
+  header{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;justify-content:space-between;align-items:center;
+    padding:28px 40px;background:var(--wall);transition:background-color .3s}
+  .logo{font-weight:600;font-size:20px;letter-spacing:-.02em}
+  .header-right{display:flex;align-items:center;gap:32px}
+  /* Selector de idioma: se ve el código (ES) y el desplegable nativo va encima, invisible */
+  .lang{position:relative;display:inline-flex;align-items:center;gap:4px;font-size:13px;letter-spacing:.06em;color:var(--muted);cursor:pointer;
+    padding:4px 0}
+  .lang:hover,.lang:focus-within{color:var(--ink)}
+  .lang svg{width:10px;height:10px}
+  .lang path{fill:none;stroke:currentColor;stroke-width:1.3}
+  .lang select{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;font-size:16px}
+  .lang:has(select:focus-visible){outline:1px solid currentColor;outline-offset:4px}
+  body.on-contacto .lang{color:rgba(20,20,20,.62)}
+  header nav{display:flex;gap:32px;font-size:14px}
+  header nav a{color:var(--muted);padding-bottom:4px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+  header nav a:hover{color:var(--ink)}
+  header nav a.active{color:var(--ink);border-bottom-color:var(--ink)}
+
+  /* =========================================================
+     Flechas (trazo ≈ 0,045em)
+     ========================================================= */
+  .arrow{display:inline-flex;color:inherit;background:none;border:0;padding:0;cursor:pointer;line-height:0;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .arrow svg{width:1.4em;height:1.4em;overflow:visible}
+  .arrow path{fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:butt;stroke-linejoin:miter}
+  .arrow:focus-visible{outline:1px solid currentColor;outline-offset:8px}
+
+  /* =========================================================
+     Aplicaciones: escenario con las botellas
+     ========================================================= */
+  .stage{position:relative;height:100vh;height:100svh;overflow:hidden;
+    --gap:4vw;
+    /* altura base: cabe en alto y, con las 3 en fila, también en ancho */
+    --bh:min(64vh, 640px, calc((100vw - 80px - 2 * var(--gap)) / 1.52));
+    background:linear-gradient(to bottom,var(--wall) 0,var(--wall) var(--horizon),var(--floor) var(--horizon),#fff 100%);
+    display:flex;justify-content:center;align-items:flex-end;gap:var(--gap);padding-bottom:13vh}
+  /* Cada botella: --ar = ancho/alto de la imagen; --k = alto/1100 (misma escala para todas) */
+  .product{position:relative;display:block;flex:0 0 auto;padding:0;border:0;background:none;cursor:pointer;
+    height:calc(var(--bh) * var(--k));aspect-ratio:var(--ar);-webkit-tap-highlight-color:transparent}
+  .product .bottles{position:relative;z-index:2;width:100%;height:100%;object-fit:contain;
+    transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .product .reflection{position:absolute;left:0;top:100%;width:100%;height:auto;opacity:.55;pointer-events:none;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0,transparent 75%);mask-image:linear-gradient(to bottom,#000 0,transparent 75%);
+    transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .product::after{content:"";position:absolute;z-index:1;left:8%;right:8%;bottom:-6px;height:14px;   /* sombra de contacto */
+    background:radial-gradient(ellipse at center,rgba(0,0,0,.18),transparent 70%)}
+  .product:focus-visible{outline:none}
+  .product:not(.soon):hover .bottles,.product:focus-visible .bottles,.product.selected .bottles{transform:translateY(-8px)}
+  .product:not(.soon):hover .reflection,.product:focus-visible .reflection{transform:translateY(8px)}
+  /* Próximamente: sin clic ni elevación, con sello (--sx/--sy = posición del sello) */
+  .product.soon{cursor:default}
+  .stamp{position:absolute;z-index:3;left:var(--sx);top:var(--sy);transform:translate(-50%,-50%) rotate(-14deg);
+    font-family:var(--display);font-weight:600;font-size:max(11px, calc(var(--bh) * .036));letter-spacing:.16em;line-height:1;
+    color:#B2382B;padding:.65em .9em .6em;border:2px solid currentColor;outline:1px solid currentColor;outline-offset:3px;
+    background:rgba(255,255,255,.72);border-radius:3px;white-space:nowrap;pointer-events:none}
+  .scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted);
+    opacity:0;transition:opacity .4s}
+  .scroll-hint.show{opacity:1}
+
+  /* =========================================================
+     Ficha de app
+     ========================================================= */
+  .app-detail{display:none}
+  .app-detail.active{display:block}
+  .app-detail h2{max-width:1080px;margin:0 auto 96px;font-family:var(--display);font-weight:var(--display-weight);
+    font-size:clamp(38px,6vw,72px);line-height:1.05;letter-spacing:-.01em;color:var(--green-ink)}
+  .app-detail h2 em{font-style:normal;color:var(--brand-blue)}
+  /* Primrose AI: de blanco (continúa el suelo) a verde oscuro.
+     --pl/--pr = márgenes laterales (el izquierdo deja sitio a la flecha "volver arriba") */
+  .app-primrose{--pl:40px;--pr:40px;position:relative;overflow-x:clip;padding:120px var(--pr) 160px var(--pl);
+    background:linear-gradient(to bottom,#fff 0,#fff 60px,#dfe9e1 240px,#4f7a5f 520px,#1d4a31 760px,var(--green-deep) 1000px,var(--green-deep) 100%)}
+
+  /* ---- Galería: mosaico de 3 columnas en pantallas grandes; la 7ª captura queda
+          en la 1ª columna y los documentos legales ocupan las otras dos ---- */
+  .gallery{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3, 1fr);gap:72px 48px}
+  .shots{display:contents;list-style:none}
+  .shot{max-width:328px;transition:opacity .45s ease,filter .45s ease,transform .45s cubic-bezier(.2,.7,.2,1)}
+  .shot figure{margin:0}
+  .shot .frame{border-radius:24px;overflow:hidden;background:#0b2016;box-shadow:0 18px 40px -18px rgba(0,0,0,.55);
+    transition:box-shadow .45s ease}
+  .shot img{width:100%;height:auto;aspect-ratio:9/16;object-fit:cover}
+  .shot figcaption{margin-top:20px;font-size:15px;line-height:1.5;color:rgba(255,255,255,.72);transition:color .45s ease}
+  .shot figcaption b{display:block;font-weight:500;color:#fff;margin-bottom:2px}
+  .shots-dots{display:none}
+  /* Enfoque: al pasar sobre una, el resto se desenfoca y atenúa */
+  @media (min-width:901px) and (hover:hover){
+    .shots:has(.shot:hover) .shot:not(:hover){opacity:.28;filter:blur(3px) saturate(.6);transform:scale(.97)}
+    .shot:hover{transform:translateY(-6px)}
+    .shot:hover .frame{box-shadow:0 0 0 1px rgba(255,255,255,.35),0 30px 70px -20px rgba(0,0,0,.7),0 0 80px -10px rgba(170,215,180,.35)}
+    .shot:hover figcaption{color:#fff}
+  }
+
+  /* ---- Documentos legales de la app ---- */
+  .docs{grid-column:2 / span 2;align-self:start;color:#fff}
+  .docs ul{list-style:none;border-top:1px solid rgba(255,255,255,.18)}
+  .docs li{border-bottom:1px solid rgba(255,255,255,.18)}
+  .docs a{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 24px;padding:22px 0;transition:padding .35s cubic-bezier(.2,.7,.2,1)}
+  .docs a strong{font-family:var(--display);font-weight:var(--display-weight);font-size:clamp(22px,2.4vw,30px);line-height:1.15}
+  .docs a span{grid-column:1;font-size:14px;line-height:1.5;color:rgba(255,255,255,.6)}
+  .docs a svg{grid-row:1 / span 2;grid-column:2;width:34px;height:34px;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .docs a path{fill:none;stroke:currentColor;stroke-width:1.55}
+  .docs a:hover,.docs a:focus-visible{padding-left:8px}
+  .docs a:hover svg,.docs a:focus-visible svg{transform:translateX(6px)}
+  .docs-note{margin-top:18px;font-size:13px;line-height:1.5;color:rgba(255,255,255,.6)}
+  .docs-note:empty{display:none}
+
+  /* ---- Flecha "volver arriba": carril a la izquierda, acompaña al scroll abajo a la izquierda ---- */
+  .top-rail{position:absolute;left:40px;top:0;bottom:40px;pointer-events:none;
+    font-size:clamp(38px,6vw,72px);padding-top:calc(100svh - 1.4em - 40px)}
+  .arrow-up{position:sticky;top:calc(100svh - 1.4em - 40px);color:#fff;font-size:inherit;pointer-events:auto}
+  .arrow-up:hover{transform:translateY(-8px)}
+
+  /* =========================================================
+     Contacto
+     ========================================================= */
+  #contacto{position:relative;background:var(--contact-bg)}
+  body.on-contacto,body.on-contacto header{background:var(--contact-bg)}   /* la cabecera toma el mismo color */
+  body.on-contacto header nav a{color:rgba(20,20,20,.62)}
+  body.on-contacto header nav a:hover,body.on-contacto header nav a.active{color:var(--ink)}
+  #contacto .wrap{min-height:100vh;max-width:960px;margin:0 auto;padding:140px 40px 80px;
+    display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+  #contacto p{font-family:var(--display);font-weight:var(--display-weight);font-size:clamp(34px,5.5vw,64px);line-height:1.1;letter-spacing:-.01em}
+  #contacto a.mail{margin-top:40px;font-size:clamp(16px,2vw,20px);border-bottom:1px solid var(--ink);padding-bottom:4px;transition:opacity .2s}
+  #contacto a.mail:hover{opacity:.6}
+  #contacto a.aviso{margin-top:24px;font-size:14px;border-bottom:1px solid currentColor;padding-bottom:2px;transition:opacity .2s}
+  #contacto a.aviso:hover{opacity:.6}
+  .arrow-back{position:absolute;left:40px;bottom:40px;font-size:clamp(34px,5.5vw,64px)}
+  .arrow-back:hover{transform:translateX(-8px)}
+
+  /* =========================================================
+     Responsive
+     ========================================================= */
+  @media (max-width:1240px){   /* hueco a la izquierda para la flecha "volver arriba" */
+    .app-primrose{--pl:calc(40px + 1.4 * clamp(38px,6vw,72px) + 24px)}
+  }
+  /* Móvil y tablet: capturas en carrusel horizontal (deslizar), documentos debajo */
+  @media (max-width:900px){
+    .gallery{display:block}
+    .shots{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+      margin:0 calc(-1 * var(--pr)) 0 calc(-1 * var(--pl));padding:8px var(--pr) 24px var(--pl);scroll-padding-inline:var(--pl) var(--pr)}
+    .shots::-webkit-scrollbar{display:none}
+    .shot{flex:0 0 min(40vw, 300px);max-width:none;scroll-snap-align:start}
+    .shots-dots{display:flex;gap:10px;margin:8px 0 0}
+    .shots-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;
+      transition:background-color .3s,transform .3s}
+    .shots-dots button[aria-current="true"]{background:#fff;transform:scale(1.3)}
+    .docs{margin-top:72px}
+  }
+  @media (max-width:640px){
+    header{padding:20px 16px}
+    header nav{gap:16px}
+    .header-right{gap:16px}
+    /* Botellas en fila con desplazamiento lateral y ajuste al centro */
+    .stage{--horizon:60%;--gap:14vw;--bh:min(54vh, 460px);padding-bottom:16vh;
+      justify-content:flex-start;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+      padding-inline:calc(50vw - var(--bh) * .26);scrollbar-width:none}
+    .stage::-webkit-scrollbar{display:none}
+    .product{scroll-snap-align:center}
+    .scroll-hint{display:none}
+    .app-primrose{--pl:76px;--pr:16px;padding-top:96px;padding-bottom:120px}
+    .shot{flex-basis:min(70vw, 300px)}
+    .docs{margin-top:56px}
+    .docs a{padding:18px 0}
+    .app-detail h2{margin-bottom:56px}
+    .top-rail{left:16px;bottom:24px;font-size:30px;padding-top:calc(100svh - 1.4em - 24px)}
+    .arrow-up{top:calc(100svh - 1.4em - 24px)}
+    #contacto .wrap{padding:120px 16px 60px}
+    .arrow-back{left:16px;bottom:24px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .product .bottles,.product .reflection,.shot,.shot .frame,.arrow,.docs a,.docs a svg{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#aplicaciones" class="logo">Mada Apps</a>
+  <div class="header-right">
+    <nav>
+      <a href="#aplicaciones" data-nav="aplicaciones" data-i18n="nav_apps">Aplicaciones</a>
+      <a href="#contacto" data-nav="contacto" data-i18n="nav_contact">Contacto</a>
+    </nav>
+    <label class="lang" data-i18n-title="lang_label" title="Idioma">
+      <span class="lang-code" aria-hidden="true">ES</span>
+      <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5 6 8.5l4-4"/></svg>
+      <select id="lang" data-i18n-aria="lang_label" aria-label="Idioma"></select>
+    </label>
+  </div>
+</header>
+
+<!-- ============ APLICACIONES ============ -->
+<main id="aplicaciones" class="view">
+  <section class="stage" aria-label="Nuestras aplicaciones" data-i18n-aria="stage_label">
+    <!-- Para añadir una app: duplicar un bloque y ajustar data-app, imágenes, --ar (ancho/alto de la imagen) y --k (alto/1100) -->
+    <div class="product soon" style="--ar:574/1069;--k:.972;--sx:48%;--sy:60%" role="img" aria-label="Primrose Birds: próximamente" data-soon="Primrose Birds">
+      <img class="bottles" src="assets/botella-primrose-birds.webp" alt="" width="574" height="1069">
+      <img class="reflection" src="assets/botella-primrose-birds-reflejo.webp" alt="" width="574" height="308" loading="lazy">
+      <span class="stamp" data-i18n="soon">PRÓXIMAMENTE</span>
+    </div>
+    <button class="product" data-app="primrose-ai" style="--ar:549/1083;--k:.985" aria-label="Ver Primrose AI" data-i18n-aria="view_primrose">
+      <img class="bottles" src="assets/botella-primrose-ai.webp" alt="Botellas de Primrose AI" data-i18n-alt="bottles_alt" width="549" height="1083">
+      <img class="reflection" src="assets/botella-primrose-ai-reflejo.webp" alt="" width="549" height="308">
+    </button>
+    <div class="product soon" style="--ar:544/1090;--k:.991;--sx:45%;--sy:60%" role="img" aria-label="Primrose Bugs: próximamente" data-soon="Primrose Bugs">
+      <img class="bottles" src="assets/botella-primrose-bugs.webp" alt="" width="544" height="1090">
+      <img class="reflection" src="assets/botella-primrose-bugs-reflejo.webp" alt="" width="544" height="308" loading="lazy">
+      <span class="stamp" data-i18n="soon">PRÓXIMAMENTE</span>
+    </div>
+    <span class="scroll-hint" id="scrollHint" aria-hidden="true">↓</span>
+  </section>
+
+  <section class="details" id="detalles" hidden>
+    <article class="app-detail app-primrose" data-app="primrose-ai" id="app-primrose-ai">
+      <h2 data-i18n-html="title_html"><em>Primrose AI.</em> Mima tus plantas</h2>
+      <div class="gallery">
+      <ul class="shots" aria-label="Capturas de Primrose AI" data-i18n-aria="shots_label">
+        <li class="shot"><figure>
+          <div class="frame"><img data-shot="01_identificacion" src="assets/primrose/01_identificacion-720.webp" srcset="assets/primrose/01_identificacion-400.webp 400w, assets/primrose/01_identificacion-720.webp 720w" sizes="(max-width:640px) 70vw, (max-width:900px) 40vw, 328px" width="720" height="1280" loading="lazy" decoding="async" alt="Captura de Primrose AI 1"></div>
+          <figcaption><b data-i18n="c1t">Identifica tus plantas.</b><span data-i18n="c1d">Descubre sus características y los cuidados que necesitan: riego, sustrato, luz, poda, abono…</span></figcaption>
+        </figure></li>
+        <li class="shot"><figure>
+          <div class="frame"><img data-shot="02_salud" src="assets/primrose/02_salud-720.webp" srcset="assets/primrose/02_salud-400.webp 400w, assets/primrose/02_salud-720.webp 720w" sizes="(max-width:640px) 70vw, (max-width:900px) 40vw, 328px" width="720" height="1280" loading="lazy" decoding="async" alt="Captura de Primrose AI 2"></div>
+          <figcaption><b data-i18n="c2t">Cuida su salud.</b><span data-i18n="c2d">Analiza la parte de la planta que te preocupa para detectar posibles problemas y recibir recomendaciones de cuidado.</span></figcaption>
+        </figure></li>
+        <li class="shot"><figure>
+          <div class="frame"><img data-shot="03_inicio" src="assets/primrose/03_inicio-720.webp" srcset="assets/primrose/03_inicio-400.webp 400w, assets/primrose/03_inicio-720.webp 720w" sizes="(max-width:640px) 70vw, (max-width:900px) 40vw, 328px" width="720" height="1280" loading="lazy" decoding="async" alt="Captura de Primrose AI 3"></div>
+          <figcaption><b data-i18n="c3t">Riego sin agobios.</b><span data-i18n="c3d">¿Se te olvida regar tus plantas? Te enviamos recordatorios de riego.</span></figcaption>
+        </figure></li>
+        <li class="shot"><figure>
+          <div class="frame"><img data-shot="04_mapa" src="assets/primrose/04_mapa-720.webp" srcset="assets/primrose/04_mapa-400.webp 400w, assets/primrose/04_mapa-720.webp 720w" sizes="(max-width:640px) 70vw, (max-width:900px) 40vw, 328px" width="720" height="1280" loading="lazy" decoding="async" alt="Captura de Primrose AI 4"></div>
+          <figcaption><b data-i18n="c4t">Tu cuaderno de campo, siempre contigo.</b><span data-i18n="c4d">Guarda las plantas que descubres en tus paseos y viajes. Consulta su ubicación en el mapa y utiliza el GPS para volver a encontrarlas.</span></figcaption>
+        </figure></li>
+        <li class="shot"><figure>
+          <div class="frame"><img data-shot="05_mascotas" src="assets/primrose/05_mascotas-720.webp" srcset="assets/primrose/05_mascotas-400.webp 400w, assets/primrose/05_mascotas-720.webp 720w" sizes="(max-width:640px) 70vw, (max-width:900px) 40vw, 328px" width="720" height="1280" loading="lazy" decoding="async" alt="Captura de Primrose AI 5"></div>
+          <figcaption><b data-i18n="c5t">Cuida también de tus mascotas.</b><span data-i18n="c5d">Consulta si una planta puede ser tóxica para tus mascotas y toma precauciones para protegerlas.</span></figcaption>
+        </figure></li>
+        <li class="shot"><figure>
+          <div class="frame"><img data-shot="06_jardines" src="assets/primrose/06_jardines-720.webp" srcset="assets/primrose/06_jardines-400.webp 400w, assets/primrose/06_jardines-720.webp 720w" sizes="(max-width:640px) 70vw, (max-width:900px) 40vw, 328px" width="720" height="1280" loading="lazy" decoding="async" alt="Captura de Primrose AI 6"></div>
+          <figcaption><b data-i18n="c6t">Gestiona tus jardines.</b><span data-i18n="c6d">Agrupa tus plantas en jardines, organiza tus espacios y simplifica el riego. Si tus jardines están al aire libre, te avisamos del tiempo adverso para que puedas proteger tus plantas.</span></figcaption>
+        </figure></li>
+        <li class="shot"><figure>
+          <div class="frame"><img data-shot="07_luz" src="assets/primrose/07_luz-720.webp" srcset="assets/primrose/07_luz-400.webp 400w, assets/primrose/07_luz-720.webp 720w" sizes="(max-width:640px) 70vw, (max-width:900px) 40vw, 328px" width="720" height="1280" loading="lazy" decoding="async" alt="Captura de Primrose AI 7"></div>
+          <figcaption><b data-i18n="c7t">¿Reciben tus plantas la luz que necesitan?</b><span data-i18n="c7d">Mide la luz que les llega a tus plantas para saber si están en el sitio adecuado.</span></figcaption>
+        </figure></li>
+      </ul>
+      <div class="shots-dots" aria-hidden="true"></div>
+      <nav class="docs" aria-label="Información legal de Primrose AI" data-i18n-aria="docs_label">
+        <ul>
+          <li><a href="primrose-ai/privacidad.html" hreflang="es"><strong data-i18n="d1t">Protección de datos</strong><span data-i18n="d1d">Qué datos se recogen, dónde se guardan y qué derechos tienes</span><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M2 24h43M29 8l16 16-16 16"/></svg></a></li>
+          <li><a href="primrose-ai/terminos.html" hreflang="es"><strong data-i18n="d2t">Condiciones de uso</strong><span data-i18n="d2d">Las condiciones para utilizar la aplicación</span><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M2 24h43M29 8l16 16-16 16"/></svg></a></li>
+          <li><a href="primrose-ai/ia.html" hreflang="es"><strong data-i18n="d3t">Uso de inteligencia artificial</strong><span data-i18n="d3d">Qué información se envía al modelo de IA y cuáles son los límites de sus respuestas</span><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M2 24h43M29 8l16 16-16 16"/></svg></a></li>
+          <li><a href="primrose-ai/borrar-datos.html" hreflang="es"><strong data-i18n="d4t">Eliminar tus datos</strong><span data-i18n="d4d">Cómo borrar tu cuenta, con la aplicación o sin ella</span><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M2 24h43M29 8l16 16-16 16"/></svg></a></li>
+        </ul>
+        <p class="docs-note" data-i18n="docs_note"></p>
+      </nav>
+      </div>
+      <div class="top-rail">
+        <button class="arrow arrow-up" type="button" data-to-top aria-label="Volver arriba" data-i18n-aria="back_top">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 46V3M8 19 24 3l16 16"/></svg>
+        </button>
+      </div>
+    </article>
+  </section>
+</main>
+
+<!-- ============ CONTACTO ============ -->
+<section id="contacto" class="view">
+  <div class="wrap">
+    <a class="arrow arrow-back" href="#aplicaciones" aria-label="Volver al inicio" data-i18n-aria="back_home">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M46 24H3M19 8 3 24l16 16"/></svg>
+    </a>
+    <p data-i18n-html="contact_html">¿Quieres decirnos algo?<br>No te cortes.</p>
+    <a class="mail" href="mailto:desarrollos.mada.apps@gmail.com">desarrollos.mada.apps@gmail.com</a>
+    <a class="aviso" href="aviso-legal.html" hreflang="es" data-i18n="legal_notice">Aviso legal</a>
+  </div>
+</section>
+
+<script src="assets/i18n.js"></script>
+<script>
+(function(){
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const scrollBehavior = () => reduceMotion.matches ? 'auto' : 'smooth';
+
+  /* ---------- Navegación: #aplicaciones · #contacto · #app/<slug> ---------- */
+  const views = document.querySelectorAll('.view');
+  const navLinks = document.querySelectorAll('[data-nav]');
+  const details = document.getElementById('detalles');
+  const hint = document.getElementById('scrollHint');
+
+  function showView(name){
+    views.forEach(v => v.classList.toggle('active', v.id === name));
+    navLinks.forEach(a => a.classList.toggle('active', a.dataset.nav === name));
+    document.body.classList.toggle('on-contacto', name === 'contacto');
+  }
+
+  function selectApp(slug, scroll){
+    const panel = details.querySelector('.app-detail[data-app="' + slug + '"]');
+    if(!panel) return;
+    details.hidden = false;
+    details.querySelectorAll('.app-detail').forEach(p => p.classList.toggle('active', p === panel));
+    document.querySelectorAll('.product').forEach(b => b.classList.toggle('selected', b.dataset.app === slug));
+    hint.classList.add('show');
+    details.dispatchEvent(new Event('shown'));
+    if(scroll) details.scrollIntoView({behavior: scrollBehavior()});
+  }
+
+  function route(){
+    const h = location.hash.slice(1);
+    if(h === 'contacto'){ showView('contacto'); scrollTo(0, 0); return; }
+    showView('aplicaciones');
+    if(h.startsWith('app/')) selectApp(h.slice(4), true);
+    else scrollTo(0, 0);
+  }
+
+  document.querySelectorAll('button.product').forEach(btn => btn.addEventListener('click', () => {
+    const target = '#app/' + btn.dataset.app;
+    if(location.hash === target) selectApp(btn.dataset.app, true);
+    else location.hash = target;
+  }));
+
+  document.querySelectorAll('[data-to-top]').forEach(b =>
+    b.addEventListener('click', () => scrollTo({top: 0, behavior: scrollBehavior()})));
+
+  // Móvil: la fila de botellas se desplaza; al cargar, centrar Primrose AI
+  addEventListener('load', () => {
+    const stage = document.querySelector('.stage'), main = stage.querySelector('button.product');
+    if(stage.scrollWidth > stage.clientWidth)
+      stage.scrollLeft = main.offsetLeft - (stage.clientWidth - main.offsetWidth) / 2;
+  });
+
+  /* ---------- Carrusel de capturas (≤900px): puntos que siguen el desplazamiento ---------- */
+  const list = document.querySelector('.shots');
+  const items = Array.from(list.querySelectorAll('.shot'));
+  const dotsBox = document.querySelector('.shots-dots');
+  const dots = items.map((li, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.tabIndex = -1;
+    b.addEventListener('click', () => list.scrollTo({left: li.offsetLeft - list.offsetLeft - parseFloat(getComputedStyle(list).scrollPaddingLeft || 0), behavior: scrollBehavior()}));
+    dotsBox.appendChild(b);
+    return b;
+  });
+  const markDot = () => {
+    const x = list.scrollLeft;
+    let best = 0, dist = Infinity;
+    items.forEach((li, i) => { const d = Math.abs(li.offsetLeft - list.offsetLeft - x - parseFloat(getComputedStyle(list).scrollPaddingLeft || 0)); if(d < dist){ dist = d; best = i; } });
+    if(list.scrollLeft + list.clientWidth >= list.scrollWidth - 2) best = items.length - 1;   // al final del todo
+    dots.forEach((b, i) => b.setAttribute('aria-current', i === best ? 'true' : 'false'));
+  };
+  list.addEventListener('scroll', () => requestAnimationFrame(markDot), {passive:true});
+  addEventListener('resize', markDot);
+  details.addEventListener('shown', () => requestAnimationFrame(markDot));
+  markDot();
+
+  /* ---------- Idioma ---------- */
+  const LANGS = window.I18N;
+  const select = document.getElementById('lang');
+  Object.keys(LANGS).forEach(code => select.add(new Option(LANGS[code].name, code)));
+
+  function pickLang(){
+    const fromUrl = new URLSearchParams(location.search).get('lang');
+    if(fromUrl && LANGS[fromUrl]) return fromUrl;
+    try { const saved = localStorage.getItem('lang'); if(saved && LANGS[saved]) return saved; } catch(e){}
+    for(const l of (navigator.languages || [navigator.language || 'es'])){
+      const code = String(l).slice(0, 2).toLowerCase();
+      if(LANGS[code]) return code;
+    }
+    return 'es';
+  }
+
+  function applyLang(code){
+    const t = LANGS[code];
+    document.documentElement.lang = code;
+    document.querySelector('meta[name="description"]').content = t.meta_desc;
+    document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t[el.dataset.i18n]);
+    document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t[el.dataset.i18nHtml]);
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', t[el.dataset.i18nAria]));
+    document.querySelectorAll('[data-i18n-alt]').forEach(el => el.alt = t[el.dataset.i18nAlt]);
+    document.querySelectorAll('[data-i18n-title]').forEach(el => el.title = t[el.dataset.i18nTitle]);
+    document.querySelectorAll('[data-soon]').forEach(el => el.setAttribute('aria-label', el.dataset.soon + ': ' + t.soon_aria));
+    const dir = 'assets/primrose/' + (t.imgs ? t.imgs + '/' : '');
+    document.querySelectorAll('img[data-shot]').forEach((img, i) => {
+      const n = img.dataset.shot;
+      img.srcset = `${dir}${n}-400.webp 400w, ${dir}${n}-720.webp 720w`;
+      img.src = `${dir}${n}-720.webp`;
+      img.alt = t.shot_alt.replace('{n}', i + 1);
+    });
+    document.querySelector('.lang-code').textContent = code.toUpperCase();
+    select.value = code;
+  }
+
+  select.addEventListener('change', () => {
+    const code = select.value;
+    try { localStorage.setItem('lang', code); } catch(e){}
+    const url = new URL(location.href);
+    url.searchParams.set('lang', code);
+    history.replaceState(null, '', url);
+    applyLang(code);
+  });
+  applyLang(pickLang());
+
+  addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>

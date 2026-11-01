@@ -1,0 +1,64 @@
+Puedes eliminar tu cuenta de Primrose AI y todos los datos asociados en cualquier momento. Hay
+dos formas de hacerlo: desde la propia aplicación, que se hace en el momento, y escribiendo un
+correo, que es la vía para quien ya no la tiene instalada.
+
+# Antes de borrar: cancela la suscripción
+Eliminar la cuenta **no cancela la suscripción**, que se paga a través de la tienda de
+aplicaciones. Si tienes una, cancélala antes: en Android, en Google Play, **Pagos y
+suscripciones**; en iPhone, en **Ajustes**, tu nombre, **Suscripciones**. Si no, la tienda seguirá
+cobrándola.
+
+# Desde la aplicación
+Entra en **Inicio**, abre el menú tocando tu foto de perfil arriba a la derecha y elige
+**Acerca de**. Al final de esa pantalla está la opción **Eliminar mi cuenta**.
+
+Por seguridad se te pedirá que vuelvas a identificarte con tu cuenta de Google o de Apple antes de
+continuar. Después el borrado sigue por su cuenta y no hace falta esperar con la aplicación
+abierta.
+
+# Si ya la has desinstalado
+Escribe a {contacto} desde la misma dirección de correo con la que accedías a la aplicación.
+Necesitamos que sea esa dirección porque es lo que permite comprobar que la cuenta es tuya: no
+se puede atender una petición de borrado sin saber de quién son los datos que se van a borrar.
+
+No hace falta que expliques nada más ni que justifiques la petición. Basta con que digas que
+quieres eliminar tu cuenta.
+
+Si ya no tienes acceso a ese correo, escríbenos desde otra dirección y te diremos cómo comprobar
+que la cuenta es tuya.
+
+# Si la cuenta era de una persona fallecida
+Sus familiares, su pareja de hecho o sus herederos pueden pedir que se elimine escribiendo a
+{contacto}, acreditando el fallecimiento y su relación con ella. Se explica en el apartado
+«Personas fallecidas» de la información de protección de datos.
+
+# Qué se borra
+Se borran tus datos de perfil (identificador de usuario, nombre, correo y fotografía de tu cuenta
+de Google o de Apple), todos tus jardines con su ubicación, todas tus plantas con sus cuidados,
+sus riegos y sus diagnósticos, los apuntes del cuaderno de campo, todas las fotografías que
+hubieras subido y los datos de uso y de compras (análisis, suscripción, bonos y pedidos).
+
+# Qué no queda
+De tus plantas, tus jardines y tus fotografías no se guarda ninguna copia. El borrado es completo
+y no hay forma de recuperarlos después, ni siquiera a petición tuya. Si vuelves a entrar con la
+misma cuenta, empezarás de cero.
+
+Las compras las cobra la tienda de aplicaciones (Google Play o App Store), que conserva su propia
+documentación conforme a la normativa que le corresponde. La aplicación no guarda ninguna
+constancia de ellas después de borrar la cuenta.
+
+Los registros del servidor, que anotan cada operación con tu identificador de usuario, se borran
+solos a los 30 días.
+
+# Plazo
+Desde la aplicación, el borrado se hace en el momento. Esa misma noche una revisión automática
+comprueba que no queda nada y elimina también la propia solicitud de borrado.
+
+Las peticiones que llegan por correo se atienden en el plazo máximo de un mes desde su
+recepción, conforme al artículo 12.3 del Reglamento (UE) 2016/679, ampliable dos meses más solo si
+la petición fuera compleja, y en ese caso se te avisaría dentro del primer mes.
+
+# Si algo no funciona
+Si has eliminado la cuenta y crees que algún dato sigue ahí, escribe a {contacto} y se
+comprobará. También puedes presentar una reclamación ante la Agencia Española de Protección de
+Datos (www.aepd.es) o ante la autoridad de protección de datos del país en el que residas.
