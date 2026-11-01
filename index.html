@@ -188,12 +188,14 @@
   body.on-contacto,body.on-contacto header{background:var(--contact-bg)}   /* la cabecera toma el mismo color */
   body.on-contacto header nav a{color:rgba(20,20,20,.62)}
   body.on-contacto header nav a:hover,body.on-contacto header nav a.active{color:var(--ink)}
-  #contacto .wrap{min-height:100vh;max-width:960px;margin:0 auto;padding:140px 40px 80px;
+  /* abajo deja sitio a la flecha y al aviso legal, que van fijos en las esquinas */
+  #contacto .wrap{min-height:100vh;max-width:960px;margin:0 auto;padding:140px 40px calc(40px + 1.4 * clamp(34px,5.5vw,64px) + 24px);
     display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
   #contacto p{font-family:var(--display);font-weight:var(--display-weight);font-size:clamp(34px,5.5vw,64px);line-height:1.1;letter-spacing:-.01em}
   #contacto a.mail{margin-top:40px;font-size:clamp(16px,2vw,20px);border-bottom:1px solid var(--ink);padding-bottom:4px;transition:opacity .2s}
   #contacto a.mail:hover{opacity:.6}
-  #contacto a.aviso{margin-top:24px;font-size:14px;border-bottom:1px solid currentColor;padding-bottom:2px;transition:opacity .2s}
+  /* Aviso legal: abajo a la derecha, a la altura de la flecha de volver */
+  #contacto a.aviso{position:absolute;right:40px;bottom:40px;font-size:14px;border-bottom:1px solid currentColor;padding-bottom:2px;transition:opacity .2s}
   #contacto a.aviso:hover{opacity:.6}
   .arrow-back{position:absolute;left:40px;bottom:40px;font-size:clamp(34px,5.5vw,64px)}
   .arrow-back:hover{transform:translateX(-8px)}
@@ -235,8 +237,9 @@
     .app-detail h2{margin-bottom:56px}
     .top-rail{left:16px;bottom:24px;font-size:30px;padding-top:calc(100svh - 1.4em - 24px)}
     .arrow-up{top:calc(100svh - 1.4em - 24px)}
-    #contacto .wrap{padding:120px 16px 60px}
+    #contacto .wrap{padding:120px 16px calc(24px + 1.4 * clamp(34px,5.5vw,64px) + 16px)}
     .arrow-back{left:16px;bottom:24px}
+    #contacto a.aviso{right:16px;bottom:24px}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
